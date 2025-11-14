@@ -1,9 +1,11 @@
+#pragma once
 #include <queue>
 #include <unordered_map>
 #include <vector>
+#include <cstdint>
 #include "../models/Message.h"
 
-
+using namespace std;
 class MessagingService {
 queue<Message> outbox;
 unordered_map<UserID, vector<Message>> inbox;

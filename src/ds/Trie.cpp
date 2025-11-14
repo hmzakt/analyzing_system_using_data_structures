@@ -1,5 +1,6 @@
 #include "../../include/ds/Trie.h"
 #include <queue>
+#include <algorithm>
 using namespace std;
 
 

@@ -1,3 +1,4 @@
+#pragma once    // added to prevent multiple inclusions
 #include <string>
 #include <vector>
 #include <chrono>

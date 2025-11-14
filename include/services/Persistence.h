@@ -1,10 +1,10 @@
+#pragma once
 #include <string>
 #include <unordered_map>
 #include <vector>
 #include "../models/User.h"
 #include "../models/Post.h"
 using namespace std;
-
 
 // Simple JSON persistence using nlohmann::json (put json.hpp in extern/)
 class Persistence {

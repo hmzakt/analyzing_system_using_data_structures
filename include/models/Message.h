@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <chrono>
+#include <cstdint>
 
 using PostID = uint64_t;
 using UserID = uint64_t;

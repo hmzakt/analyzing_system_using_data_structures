@@ -1,5 +1,7 @@
+#pragma once
 #include <string>
 #include <unordered_map>
+#include <cstdint>
 #include "../ds/Trie.h"
 using namespace std;
 using UserID = uint64_t;

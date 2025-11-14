@@ -1,3 +1,4 @@
+#pragma once
 #include <unordered_map>
 #include <vector>
 #include <algorithm>
@@ -11,6 +12,6 @@ public:
 void addUser(UserID uid);
 void addFriendship(UserID a, UserID b);
 const vector<UserID>& neighbors(UserID uid) const;
-vector<std::vector<UserID>> connected_components() const;
+vector<vector<UserID>> connected_components() const;
 vector<UserID> suggestFriends(UserID uid, int k=10) const;
 };
