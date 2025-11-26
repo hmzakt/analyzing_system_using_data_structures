@@ -15,6 +15,7 @@
 #include "../include/services/MessagingService.h"
 #include "../include/services/Analytics.h"
 #include "../include/services/RankingService.h"
+#include "../include/services/Persistence.h"
 
 using namespace std;
 
@@ -71,12 +72,35 @@ int main() {
     SearchService search;
     MessagingService messenger;
     Analytics analytics;
+    Persistence persistence;
     
     // Data storage
     unordered_map<UserID, User> users;
     unordered_map<PostID, Post> posts;
     UserID nextUserId = 1;
     PostID nextPostId = 1;
+    
+    // Load data from files
+    persistence.loadUsers(users, nextUserId);
+    persistence.loadPosts(posts, nextPostId);
+    uint64_t nextMsgId = 1;
+    unordered_map<UserID, vector<Message>> inbox;
+    persistence.loadMessages(inbox, nextMsgId);
+    messenger.setInbox(inbox);
+    messenger.setNextMsgId(nextMsgId);
+    unordered_map<string, int> hashtagCounts;
+    persistence.loadAnalytics(hashtagCounts);
+    analytics.setHashtagCounts(hashtagCounts);
+    
+    // Rebuild services from loaded data
+    for (const auto& pair : users) {
+        const User& u = pair.second;
+        graph.addUser(u.id);
+        search.indexUser(u.username, u.id);
+        for (UserID fid : u.friends) {
+            graph.addFriendship(u.id, fid);
+        }
+    }
     
     string input;
     int choice;
@@ -347,6 +371,11 @@ int main() {
             
             case 0: // Exit
                 cout << "Goodbye!\n";
+                // Save data to files
+                persistence.saveUsers(users);
+                persistence.savePosts(posts);
+                persistence.saveMessages(messenger.getInbox(), messenger.getNextMsgId());
+                persistence.saveAnalytics(analytics.getHashtagCounts());
                 return 0;
             
             default:
